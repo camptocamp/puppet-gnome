@@ -42,9 +42,10 @@ define gnome::gsettings($user, $schema, $key, $value_type="String", $value, $lis
   }
 
   exec {"set ${key} on user ${user} to ${prep_value}":
-    command => "${command}",
-    unless  => "gsettings get ${schema} ${key} | grep -q \"${prep_value}\"",
-    user    => "$user",
+    command  => "${command}",
+    unless   => "gsettings get ${schema} ${key} | grep -q \"${prep_value}\"",
+    user     => "$user",
+    provider => 'shell',
   }
 
 }
