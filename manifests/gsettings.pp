@@ -37,14 +37,15 @@ define gnome::gsettings($user, $schema, $key, $value_type="String", $value, $lis
 
   $command = $list_append ? {
     # I think this commands only work when there is and X session running
-    true  => "DISPLAY=:0 gsettings set ${schema} ${key} \"`gsettings get ${schema} ${key} | sed s/.$//`, ${prep_value}]\"",
-    false => "DISPLAY=:0 gsettings set ${schema} ${key} \"${prep_value}\"",
+    true  => "gsettings set ${schema} ${key} \"`gsettings get ${schema} ${key} | sed s/.$//`, ${prep_value}]\"",
+    false => "gsettings set ${schema} ${key} \"${prep_value}\"",
   }
 
   exec {"set ${key} on user ${user} to ${prep_value}":
-    command => "${command}",
-    unless  => "gsettings get ${schema} ${key} | grep -q \"${prep_value}\"",
-    user    => "$user",
+    command     => "${command}",
+    unless      => "gsettings get ${schema} ${key} | grep -q \"${prep_value}\"",
+    user        => "$user",
+    environment => ['DISPLAY=:0'],
   }
 
 }
