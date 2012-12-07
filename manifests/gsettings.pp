@@ -2,7 +2,7 @@
 
 == Definition: gnome::gsettings
 
-Sets a configuration key in Gnome's GSettings registry.
+Sets a configuration key in Gnome’s GSettings registry.
 
 Parameters:
 - *$user*: the name of the system user (see user param of 'exec')
@@ -27,11 +27,18 @@ If you want to add a String value to an array of strings, set $list_append to
 you want to append without quotes.
 
 */
-define gnome::gsettings($user, $schema, $key, $value_type="String", $value, $list_append=false) {
+define gnome::gsettings(
+  $user,
+  $schema,
+  $key,
+  $value,
+  $value_type='String',
+  $list_append=false,
+) {
 
   case $value_type {
     'String': { $prep_value = "'${value}'" }
-    /Integer|Boolean|Array/: { $prep_value = "${value}" }
+    /Integer|Boolean|Array/: { $prep_value = $value }
     default: { fail "Invalid type '${type}'" }
   }
 
@@ -42,9 +49,9 @@ define gnome::gsettings($user, $schema, $key, $value_type="String", $value, $lis
   }
 
   exec {"set ${key} on user ${user} to ${prep_value}":
-    command     => "${command}",
+    command     => $command,
     unless      => "gsettings get ${schema} ${key} | grep -q \"${prep_value}\"",
-    user        => "$user",
+    user        => $user,
     environment => ['DISPLAY=:0'],
   }
 

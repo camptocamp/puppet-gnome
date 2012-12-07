@@ -1,4 +1,13 @@
-define gnome::gconf($user, $keyname, $type, $value, $list_type=false, $list_append=false, $schema='', $ensure='present') {
+define gnome::gconf(
+  $user,
+  $keyname,
+  $type,
+  $value,
+  $list_type=false,
+  $list_append=false,
+  $schema='',
+  $ensure='present',
+) {
   if $list_type {
     if $list_append {
       $command = "su -l -c '/usr/bin/gconftool-2 --set $keyname --list-type $list_type --type $type `echo $(gconftool-2  --get ${keyname}) | sed -e \"s/\]/,${value}\]/\"`' ${user}"
