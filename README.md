@@ -1,4 +1,5 @@
-#puppet-gnome: basic puppet-drive gnome configuration for user environments
+#puppet-gnome
+Basic puppet-drive gnome configuration for user environments
 
 ##gconf or gsettings?
 GConf is the older Gnome configuration system (shipped `<= Ubuntu Lucid) and
@@ -9,6 +10,8 @@ and GSettings in progress, so both systems may be used depending on the
 application you want to configure.
 
 ##Example
+The following example sets the user's Window Manager **theme** preference
+to be 'Ambiance'
 ```
 gnome::gsettings { "wmpref":
   user => "user",
