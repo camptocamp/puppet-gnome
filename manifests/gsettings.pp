@@ -34,6 +34,7 @@ define gnome::gsettings(
   $value,
   $value_type='String',
   $list_append=false,
+  $path=["/usr/bin","/bin"],
 ) {
 
   case $value_type {
@@ -53,6 +54,7 @@ define gnome::gsettings(
     unless      => "gsettings get ${schema} ${key} | grep -q \"${prep_value}\"",
     user        => $user,
     environment => ['DISPLAY=:0'],
+    path        => $path,
   }
 
 }
