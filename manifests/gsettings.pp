@@ -44,13 +44,13 @@ define gnome::gsettings(
 
   $command = $list_append ? {
     # I think this commands only work when there is and X session running
-    true  => "gsettings set ${schema} ${key} \"`gsettings get ${schema} ${key} | sed s/.$//`, ${prep_value}]\"",
-    false => "gsettings set ${schema} ${key} \"${prep_value}\"",
+    true  => "/usr/bin/gsettings set ${schema} ${key} \"`/usr/bin/gsettings get ${schema} ${key} | sed s/.$//`, ${prep_value}]\"",
+    false => "/usr/bin/gsettings set ${schema} ${key} \"${prep_value}\"",
   }
 
   exec {"set ${key} on user ${user} to ${prep_value}":
     command     => $command,
-    unless      => "gsettings get ${schema} ${key} | grep -q \"${prep_value}\"",
+    unless      => "/usr/bin/gsettings get ${schema} ${key} | grep -q \"${prep_value}\"",
     user        => $user,
     environment => ['DISPLAY=:0'],
   }
