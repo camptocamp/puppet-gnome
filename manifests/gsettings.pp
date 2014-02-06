@@ -39,7 +39,7 @@ define gnome::gsettings(
   case $value_type {
     'String': { $prep_value = "'${value}'" }
     /Integer|Boolean|Array/: { $prep_value = $value }
-    default: { fail "Invalid type '${type}'" }
+    default: { fail "Invalid type '${value_type}'" }
   }
 
   $command = $list_append ? {
