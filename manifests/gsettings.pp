@@ -12,6 +12,9 @@ Parameters:
 - *$value*: the value to set
 - *$list_append*: wether the GSettings key is an array and the value you set
   should be appended to the existing array (defaults to 'false')
+- *$get_grep*: allows to add a keyword that verifies if the modification is
+  already applied. Use only if $value is an array.
+  
 
 
 Notes:
@@ -34,6 +37,7 @@ define gnome::gsettings(
   $value,
   $value_type='String',
   $list_append=false,
+  $get_grep='',
 ) {
 
   case $value_type {
@@ -42,15 +46,21 @@ define gnome::gsettings(
     default: { fail "Invalid type '${value_type}'" }
   }
 
+  $tmp_get_grep = $get_grep ? {
+    '' => $prep_value,
+    default => $get_grep,
+  }
+
   $command = $list_append ? {
     # I think this commands only work when there is and X session running
     true  => "gsettings set ${schema} ${key} \"`gsettings get ${schema} ${key} | sed s/.$//`, ${prep_value}]\"",
     false => "gsettings set ${schema} ${key} \"${prep_value}\"",
   }
 
-  exec {"set ${key} on user ${user} to ${prep_value}":
+  # /!\ If you change a value with dconf and close it after puppet has run, it will take the dconf's value /!\
+  exec {"set ${key} on user ${user} to \"${prep_value}\"":
     command     => $command,
-    unless      => "gsettings get ${schema} ${key} | grep -q \"${prep_value}\"",
+    unless      => "gsettings get ${schema} ${key} | grep -q \"${tmp_get_grep}\"",
     user        => $user,
     environment => ['DISPLAY=:0'],
   }
