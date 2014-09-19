@@ -29,6 +29,8 @@ If you want to add a String value to an array of strings, set $list_append to
 "true", $value_type to "String" (default). $value must only contain the string
 you want to append without quotes.
 
+For de execution, it doesn't work if a session isn't open, because $DBUS_SESSION_BUS_ADDRESS isn't assigned. We need $DBUS_SESSION_BUS_ADDRESS to correctly use dbus.
+PID and DBUS_SESSION_BUS_ADDRESS are in command and not in env, because they wouldn't be assigned correctly.
 */
 define gnome::gsettings(
   $user,
@@ -47,7 +49,7 @@ define gnome::gsettings(
   }
 
   $tmp_get_grep = $get_grep ? {
-    '' => $prep_value,
+    ''      => $prep_value,
     default => $get_grep,
   }
 
@@ -57,12 +59,11 @@ define gnome::gsettings(
     false => "gsettings set ${schema} ${key} \"${prep_value}\"",
   }
 
-  # /!\ If you change a value with dconf and close it after puppet has run, it will take the dconf's value /!\
   exec {"set ${key} on user ${user} to \"${prep_value}\"":
-    command     => $command,
-    unless      => "gsettings get ${schema} ${key} | grep -q \"${tmp_get_grep}\"",
+    command     => "PID=\$(pgrep gnome-session) && export DBUS_SESSION_BUS_ADDRESS=\$(grep -z DBUS_SESSION_BUS_ADDRESS /proc/\$PID/environ|cut -d= -f2-) && ${command}",
+    unless      => "gsettings get ${schema} ${key}' | grep -q \"${tmp_get_grep}\"",
+    provider    => shell,
     user        => $user,
     environment => ['DISPLAY=:0'],
   }
-
 }
