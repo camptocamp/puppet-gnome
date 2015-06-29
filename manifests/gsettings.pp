@@ -14,7 +14,7 @@ define gnome::gsettings(
   }
   ~>
   exec { "change${key}":
-		command => "/usr/bin/glib-compile-schemas ${directory}",
+    command     => "/usr/bin/glib-compile-schemas ${directory}",
     refreshonly => true,
   }
 }
