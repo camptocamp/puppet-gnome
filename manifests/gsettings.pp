@@ -1,6 +1,6 @@
 # == Definition: gnome::gsettings
 #
-# Sets a configuration key in Gnome’s GSettings registry.
+# Sets a configuration key in Gnome's GSettings registry.
 #
 define gnome::gsettings(
   $schema,
