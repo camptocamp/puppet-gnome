@@ -1,6 +1,6 @@
 # == Definition: gnome::gsettings
 #
-# Sets a configuration key in Gnome’s GSettings registry.
+# Sets a configuration key in Gnome's GSettings registry.
 #
 define gnome::gsettings(
   $schema,
@@ -13,7 +13,8 @@ define gnome::gsettings(
     content => "[${schema}]\n  ${key} = ${value}\n",
   }
   ~>
-  exec { "/usr/bin/glib-compile-schemas ${directory}":
+  exec { "change${key}":
+    command     => "/usr/bin/glib-compile-schemas ${directory}",
     refreshonly => true,
   }
 }
