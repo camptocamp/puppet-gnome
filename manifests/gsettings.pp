@@ -13,7 +13,7 @@ define gnome::gsettings(
     content => "[${schema}]\n  ${key} = ${value}\n",
   }
   ~>
-  exec { "change${key}":
+  exec { "change-${schema}-${key}":
     command     => "/usr/bin/glib-compile-schemas ${directory}",
     refreshonly => true,
   }
