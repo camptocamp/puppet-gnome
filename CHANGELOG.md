@@ -1,3 +1,7 @@
+## 2015-11-17 - Release 0.1.10
+
+Change exec resource title to allow multiple GSettings registry changes
+
 ## 2015-08-21 - Release 0.1.9
 
 Use docker for acceptance tests
