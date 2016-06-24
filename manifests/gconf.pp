@@ -26,12 +26,14 @@ define gnome::gconf(
     command => $command,
     unless  => $unless,
     require => User[$user],
+    path    => '/bin:/usr/bin',
   }
   if $schema {
     exec {"set default schema entry for ${keyname} in ${user}":
       command => "su -l -c 'gconftool-2 --apply-schema ${schema} ${keyname}' ${user}",
       unless  => "test \"${schema}\" == \"$(su -l -c '/usr/bin/gconftool-2 --get-schema-name ${keyname}' ${user})\"",
       require => Exec["set param ${keyname} with value ${value} for user ${user}"],
+      path    => '/bin:/usr/bin',
     }
   }
 }
