@@ -14,10 +14,8 @@ The following example sets the user's Window Manager **theme** preference
 to be 'Ambiance'
 ```
 gnome::gsettings { "wmpref":
-  user => "user",
   schema => "org.gnome.desktop.wm.preferences",
-  key => "theme",
-  value => "Ambiance",
+  key    => "theme",
+  value  => "Ambiance",
 }
 ```
-
