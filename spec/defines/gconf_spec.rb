@@ -1,6 +1,11 @@
 require 'spec_helper'
 describe 'gnome::gconf' do
   let(:title) { 'rspec' }
+  let(:facts) do
+    {
+      :path    => '/bin:/usr/bin',
+    }
+  end
   let(:mandatory_params) do
     {
       :user    => 'root',
@@ -30,6 +35,7 @@ describe 'gnome::gconf' do
         'command' => "su -l -c \"/usr/bin/gconftool-2 --set /desktop/gnome/background/picture_filename --type string '/usr/share/wallpapers/rspec.png'\" root",
         'unless'  => "test \"/usr/share/wallpapers/rspec.png\" != \"\" && su -l -c 'test \"$(/usr/bin/gconftool-2 --get /desktop/gnome/background/picture_filename)\" == \"/usr/share/wallpapers/rspec.png\"' root",
         'require' => 'User[root]',
+        'path'    => '/bin:/usr/bin',
       })
     end
   end
@@ -362,6 +368,7 @@ describe 'gnome::gconf' do
       should contain_exec('set default schema entry for /desktop/gnome/background/picture_filename in root').with({
         'command' => "su -l -c 'gconftool-2 --apply-schema org.gnome.desktop.wm.preferences /desktop/gnome/background/picture_filename' root",
         'unless'  => "test \"org.gnome.desktop.wm.preferences\" == \"$(su -l -c '/usr/bin/gconftool-2 --get-schema-name /desktop/gnome/background/picture_filename' root)\"",
+        'path'    => '/bin:/usr/bin',
       })
     end
   end
