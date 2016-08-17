@@ -1,3 +1,11 @@
+## 2016-08-17 - Release 0.2.0
+
+- Update test framework
+- Update README
+- Cleanup unused parameter (Phil Friderici, fix #16)
+- Add tests (Phil Friderici, fix #15)
+- Add badges to README
+
 ## 2015-11-17 - Release 0.1.10
 
 Change exec resource title to allow multiple GSettings registry changes
