@@ -1,5 +1,9 @@
 #puppet-gnome
+
 Basic puppet-drive gnome configuration for user environments
+
+[![Puppet Forge](http://img.shields.io/puppetforge/v/camptocamp/gnome.svg)](https://forge.puppetlabs.com/camptocamp/gnome)
+[![Build Status](https://travis-ci.org/camptocamp/puppet-gnome.png?branch=master)](https://travis-ci.org/camptocamp/puppet-gnome)
 
 ##gconf or gsettings?
 GConf is the older Gnome configuration system (shipped `<= Ubuntu Lucid) and
