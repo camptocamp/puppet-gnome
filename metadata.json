@@ -1,6 +1,6 @@
 {
   "name": "camptocamp-gnome",
-  "version": "0.1.10",
+  "version": "0.2.0",
   "author": "Camptocamp",
   "summary": "Puppet GNOME module",
   "license": "Apache-2.0",
