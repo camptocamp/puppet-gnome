@@ -6,7 +6,6 @@ define gnome::gconf(
   $list_type=undef,
   $list_append=undef,
   $schema=undef,
-  $ensure='present',
 ) {
   if $list_type {
     if $list_append {

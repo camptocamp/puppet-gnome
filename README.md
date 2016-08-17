@@ -15,8 +15,7 @@ to be 'Ambiance'
 ```
 gnome::gsettings { "wmpref":
   schema => "org.gnome.desktop.wm.preferences",
-  key => "theme",
-  value => "Ambiance",
+  key    => "theme",
+  value  => "Ambiance",
 }
 ```
-
