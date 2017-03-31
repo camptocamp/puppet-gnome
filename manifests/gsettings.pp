@@ -12,8 +12,8 @@ define gnome::gsettings(
   file { "${directory}/${priority}_${name}.gschema.override":
     content => "[${schema}]\n  ${key} = ${value}\n",
   }
-  ~>
-  exec { "change-${schema}-${key}":
+  
+  ~> exec { "change-${schema}-${key}":
     command     => "/usr/bin/glib-compile-schemas ${directory}",
     refreshonly => true,
   }
