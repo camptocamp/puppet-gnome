@@ -1,3 +1,9 @@
+# Changelog
+
+## 2017-10-01 - Release 0.2.1
+
+- Updated metadata to allow puppet 4 versions
+
 ## 2016-08-17 - Release 0.2.0
 
 - Update test framework
