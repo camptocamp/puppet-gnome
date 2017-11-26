@@ -134,4 +134,22 @@ describe 'gnome::gsettings' do
     it { should compile.with_all_deps }
     it { should contain_file('/usr/share/glib-2.0/schemas/42_rspec.gschema.override') }
   end
+
+  context 'with user set to valud user <testuser>' do
+    let(:params) do
+      mandatory_params.merge({
+        :user => 'testuser',
+      })
+    end
+
+    it { should compile.with_all_deps }
+
+    it do
+      should contain_exec('change-org.rspec.testing-/desktop/gnome/rspec/testing').with({
+        'command' => "dbus-launch gsettings set org.rspec.testing /desktop/gnome/rspec/testing /usr/rspec/testing",
+        'path'    => '/usr/bin',
+        'user'    => 'testuser',
+      })
+    end
+  end
 end
